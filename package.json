@@ -1,0 +1,27 @@
+{
+  "name": "signcreator",
+  "version": "1.0.0",
+  "description": "A sign creator utility for MultiLanguagePlugin by Rexcantor64",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masterdoctor/MLP-SignCreator.git"
+  },
+  "keywords": [
+    "sign",
+    "creator",
+    "utility",
+    "multilanguageplugin",
+    "samjakob",
+    "rexcantor64"
+  ],
+  "author": "Sam Jakob Harker & Diogo Torres Correia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/masterdoctor/MLP-SignCreator/issues"
+  },
+  "homepage": "https://github.com/masterdoctor/MLP-SignCreator#readme"
+}
