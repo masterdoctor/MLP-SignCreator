@@ -6,6 +6,10 @@
   -khtml-user-select: none;
 }
 
+body {
+  overflow-y: scroll;
+}
+
 @font-face {
   font-family: Minecraftia;
   src: url("../fonts/minecraftia/Minecraftia.ttf");

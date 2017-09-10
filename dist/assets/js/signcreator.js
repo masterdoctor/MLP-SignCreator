@@ -1,5 +1,6 @@
 signs = [];
 
+
 $("img, a").each(function(element){
   $(this)[0].ondragstart = function(){
     return false;
@@ -16,8 +17,18 @@ $(".disable-no-sign").attr("disabled", true);
 
 $(document).ready(function(){
   autosize();
+  $(".tooltip").tooltip({delay: 50});
   $('select').material_select();
 });
+
+if(localStorage.getItem("settings") == null){
+  var settings = {
+    beautify: false,
+    beautifyTabs: false
+  };
+}else{
+  var settings = JSON.parse(localStorage.getItem("settings"));
+}
 
 $(window).resize(function(){
   autosize();
@@ -142,10 +153,11 @@ class Sign {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.line1 = line1;
-    this.line2 = line2;
-    this.line3 = line3;
-    this.line4 = line4;
+    this.lines = new Array();
+    this.lines[0] = line1;
+    this.lines[1] = line2;
+    this.lines[2] = line3;
+    this.lines[3] = line4;
   }
 
   getWorld(){
@@ -165,19 +177,19 @@ class Sign {
   }
 
   getLine1(){
-    return this.line1;
+    return this.lines[0];
   }
 
   getLine2(){
-    return this.line2;
+    return this.lines[1];
   }
 
   getLine3(){
-    return this.line3;
+    return this.lines[2];
   }
 
   getLine4(){
-    return this.line4;
+    return this.lines[3];
   }
 
   setWorld(world){
@@ -197,19 +209,19 @@ class Sign {
   }
 
   setLine1(line1){
-    this.line1 = line1;
+    this.lines[0] = line1;
   }
 
   setLine2(line2){
-    this.line2 = line2;
+    this.lines[1] = line2;
   }
 
   setLine3(line3){
-    this.line3 = line3;
+    this.lines[2] = line3;
   }
 
   setLine4(line4){
-    this.line4 = line4;
+    this.lines[3] = line4;
   }
 
   update(world, x, y, z, line1, line2, line3, line4) {
@@ -217,9 +229,105 @@ class Sign {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.line1 = line1;
-    this.line2 = line2;
-    this.line3 = line3;
-    this.line4 = line4;
+    this.lines[0] = line1;
+    this.lines[1] = line2;
+    this.lines[2] = line3;
+    this.lines[3] = line4;
   }
 }
+
+
+$("#exportBtn").click(function(event){
+  event.preventDefault();
+  $("#exportCode").remove();
+  $("body").append(`
+    <div id="exportCode" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Export to MultiLanguagePlugin</h4>
+        <textarea id="code" style='height:calc(100% - 4rem);font-family:monospace;border:0;'></textarea>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+      </div>
+    </div>
+  `);
+  $("#exportCode").modal({
+    dismissable: true,
+    ready: function(modal, trigger){
+      if(settings.beautify){
+        var codeValue = JSON.stringify(signs, null, (settings.beautifyTabs ? "\t" : 4));
+      }else{
+        var codeValue = JSON.stringify(signs);
+      }
+
+      $("#exportCode #code").text(codeValue);
+      $("#exportCode #code").select();
+
+      $("#exportCode #code").click(function(){
+        $(this).select();
+      });
+
+      $("#exportCode #code")[0].addEventListener("input", function(){
+        this.value = codeValue;
+        $(this).select();
+      }, false);
+    },
+    complete: function(){
+      $("#exportCode").remove();
+    }
+  });
+  $("#exportCode").modal('open');
+});
+
+$("#settingsBtn").click(function(event){
+  event.preventDefault();
+  $("#settings").modal({
+    dismissable: true,
+
+    ready: function(modal, trigger){
+      $(".link-setting.boolean").each(function(){
+        $(this).prop('checked', eval("settings." + $(this)[0].id));
+      });
+
+      $("#settings #btnCancel").click(function(event){
+        event.preventDefault();
+        $("#settings").modal('close');
+      });
+
+      $("#settings #btnSave").click(function(event){
+        event.preventDefault();
+
+        $(".link-setting.boolean").each(function(){
+          eval("settings." + $(this)[0].id + " = " + $(this).prop('checked') + ";");
+        });
+
+        localStorage.setItem('settings', JSON.stringify(settings));
+
+        $("#settings").modal('close');
+      });
+    }
+  });
+  $("#settings").modal('open');
+});
+
+$("#saveBtn").click(function(event){
+  event.preventDefault();
+  localStorage.setItem('signs', JSON.stringify(signs));
+
+  let toastContent = $('<span>Saved!</span>').add($('<button class="btn-flat toast-action" id="undoSaveBtn">Undo</button>'));
+  Materialize.toast(toastContent, 4000);
+  $("#undoSaveBtn").click(function(event){
+    event.preventDefault();
+    localStorage.removeItem('signs');
+  });
+});
+
+$("#loadBtn").click(function(event){
+  event.preventDefault();
+  if(localStorage.getItem('signs') != null){
+    signs = JSON.parse(localStorage.getItem('signs'));
+    Materialize.toast("Loaded saved sign from browser. Reload to discard.", 4000);
+  }else{
+    Materialize.toast("Unable to load sign from browser - no sign saved.", 4000);
+  }
+});

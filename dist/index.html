@@ -29,11 +29,26 @@
   <div class="container">
     <div class="row">
       <div class="col s12 m6 push-m3 pull-m3">
-        <div class="input-field col s12">
-          <select id="signSelector">
-            <option value="" disabled selected>Choose a sign...</option>
-            <option value="-1">Create a sign...</option>
-          </select>
+        <div class="row">
+          <div class="col s12 center-align">
+            <a class="btn waves-effect waves-light blue tooltip" data-position="top" data-tooltip="Use this to get the data to paste into your *.signs.json file." id="exportBtn">Export</a>
+            <a class="btn waves-effect waves-light blue tooltip" data-position="top" data-tooltip="Change settings for this tool..."  id="settingsBtn">Settings</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 center-align">
+            <a class="btn waves-effect waves-light green tooltip" data-position="bottom" data-tooltip="Saves the current sign to your browser using localStorage." id="saveBtn">Save</a>
+            <a class="btn waves-effect waves-light green tooltip" data-position="bottom" data-tooltip="Loads the current sign from your browser using localStorage." id="loadBtn">Load</a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <select id="signSelector">
+              <option value="" disabled selected>Choose a sign...</option>
+              <option value="-1">Create a sign...</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -108,6 +123,39 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Settings</h4>
+      <p><label>Settings are saved in your browser using JavaScript's local storage feature.</label></p>
+
+      <br>
+      <h5>Beautify: Enable</h5>
+      <div class="switch">
+        <label>
+          Whether or not JSON output should be beautified.
+          <input type="checkbox" id="beautify" class="link-setting boolean">
+          <span class="lever"></span>
+        </label>
+      </div>
+
+      <h5>Beautify: Use tabs</h5>
+      <div class="switch">
+        <label>
+          4 spaces
+          <input type="checkbox" id="beautifyTabs" class="link-setting boolean">
+          <span class="lever"></span>
+          tabs
+        </label>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action waves-effect waves-red btn-flat" id="btnCancel">Cancel</a>
+      <a href="#!" class="modal-action waves-effect waves-green btn-flat" id="btnSave">Save</a>
+    </div>
   </div>
 
   <script src="assets/js/jquery.min.js"></script>
