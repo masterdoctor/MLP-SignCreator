@@ -325,7 +325,12 @@ $("#saveBtn").click(function(event){
 $("#loadBtn").click(function(event){
   event.preventDefault();
   if(localStorage.getItem('signs') != null){
-    signs = JSON.parse(localStorage.getItem('signs'));
+    signsTemp = JSON.parse(localStorage.getItem('signs'));
+    signs = new Array();
+    signsTemp.forEach(function(sign){
+      signs.push(new Sign(sign.world, sign.x, sign.y, sign.z, sign.line1, sign.line2, sign.line3, sign.line4));
+    });
+    updateSignSelector();
     Materialize.toast("Loaded saved sign from browser. Reload to discard.", 4000);
   }else{
     Materialize.toast("Unable to load sign from browser - no sign saved.", 4000);
