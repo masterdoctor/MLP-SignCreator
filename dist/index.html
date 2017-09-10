@@ -13,38 +13,56 @@
 </head>
 <body>
 
-  <nav class="blue">
-    <div class="nav-wrapper container">
-      <a href="#" class="brand-logo">SignCreator</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="https://www.spigotmc.org/resources/multilanguageplugin-9.30331/">MultiLanguagePlugin</a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="navbar-fixed">
+    <nav class="blue">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">SignCreator</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="https://www.spigotmc.org/resources/multilanguageplugin-9.30331/">MultiLanguagePlugin</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
   <br><br><br>
 
   <div class="container">
+    <div class="row">
+      <div class="col s12 m6 push-m3 pull-m3">
+        <div class="input-field col s12">
+          <select id="signSelector">
+            <option value="" disabled selected>Choose a sign...</option>
+            <option value="-1">Create a sign...</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <br><hr>
+  </div>
+
+  <div class="container">
+    <br><br>
 
     <div class="row">
       <div class="col s12 m5">
         <div class="input-field">
-          <input id="world" type="text">
+          <input id="world" type="text" class="disable-no-sign" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <label for="world">World</label>
         </div>
       </div>
       <div class="col s12 m7">
         <div class="row">
           <div class="input-field col s12 m4">
-            <input id="x" type="number" class="validate" min="-30000000" max="30000000">
+            <input id="x" type="number" class="validate disable-no-sign" min="-30000000" max="30000000" autocomplete="off" autocorrect="off">
             <label for="x" data-error="You've exceeded the playable boundary.">X</label>
           </div>
           <div class="input-field col s12 m4">
-            <input id="y" type="number" class="validate" min="-1.797×10^308" max="1.797×10^308">
+            <input id="y" type="number" class="validate disable-no-sign" min="-1.797×10^308" max="1.797×10^308" autocomplete="off" autocorrect="off">
             <label for="y" data-error="Seriously?">Y</label>
           </div>
           <div class="input-field col s12 m4">
-            <input id="z" type="number" class="validate" min="-30000000" max="30000000">
+            <input id="z" type="number" class="validate disable-no-sign" min="-30000000" max="30000000" autocomplete="off" autocorrect="off">
             <label for="z" data-error="You've exceeded the playable boundary.">Z</label>
           </div>
         </div>
@@ -55,7 +73,7 @@
 
     <div class="row">
       <div class="col s12 m4">
-        <img src="img/sign.png" style="width:100%;" class="sign-img">
+        <img src="img/sign.png" style="width:100%;" class="sign-img disable-no-sign">
         <div class="sign-container">
           <p class="sign-line line-1"></p>
           <p class="sign-line line-2"></p>
@@ -67,22 +85,22 @@
 
         <form id="signValues">
           <div class="input-field">
-            <input id="line1" type="text" data-target=".line-1" class="validate" pattern=".{0,16}">
+            <input id="line1" type="text" data-target=".line-1" class="validate disable-no-sign" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <label for="line1" data-error="Your text must be 16 characters or less (without color codes).">Line 1</label>
           </div>
 
           <div class="input-field" class="line">
-            <input id="line2" type="text" data-target=".line-2" class="validate" pattern=".{0,16}">
+            <input id="line2" type="text" data-target=".line-2" class="validate disable-no-sign" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <label for="line2" data-error="Your text must be 16 characters or less (without color codes).">Line 2</label>
           </div>
 
           <div class="input-field" class="line">
-            <input id="line3" type="text" data-target=".line-3" class="validate" pattern=".{0,16}">
+            <input id="line3" type="text" data-target=".line-3" class="validate disable-no-sign" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <label for="line3" data-error="Your text must be 16 characters or less (without color codes).">Line 3</label>
           </div>
 
           <div class="input-field" class="line">
-            <input id="line4" type="text" data-target=".line-4" class="validate" pattern=".{0,16}">
+            <input id="line4" type="text" data-target=".line-4" class="validate disable-no-sign" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <label for="line4" data-error="Your text must be 16 characters or less (without color codes).">Line 4</label>
           </div>
         </form>
@@ -94,36 +112,7 @@
 
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/materialize.min.js"></script>
-  <script>
-  $("img, a").each(function(element){
-    $(this)[0].ondragstart = function(){
-      return false;
-    };
-  });
-
-  function autosize(){
-    $(".sign-container").css("bottom", $(".sign-img").height() + 12);
-    $(".sign-line").css("height", (($(".sign-img").height() / 2) / 4) - 8 + "px");
-    $(".sign-line").css("font-size", (($(".sign-img").height() / 2) / 4) - 16 + "px");
-  }
-
-  $(document).ready(function(){
-    autosize();
-  });
-
-  $(window).resize(function(){
-    autosize();
-  });
-
-  $(".input-field input").on('input', function(event){
-    if($(this).val().length <= 16){
-      $($(this).data("target")).text($(this).val());
-    }
-  });
-
-  $("#signValues").submit(function(event){
-    event.preventDefault();
-  });
-  </script>
+  <script src="assets/js/mineparse.js"></script>
+  <script src="assets/js/signcreator.js"></script>
 </body>
 </html>

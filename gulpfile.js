@@ -18,7 +18,7 @@ gulp.task('serve', function(){
 			}
 		});
 		
-		gulp.watch("./dist/*").on('change', browserSync.reload);
+		gulp.watch("./dist/**").on('change', browserSync.reload);
 	}catch(err){
 		console.log(err);
 		browserSync.notify("Unkown error (check console)", 1000);
