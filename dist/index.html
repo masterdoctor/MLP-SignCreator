@@ -36,16 +36,16 @@
       <div class="col s12 m7">
         <div class="row">
           <div class="input-field col s12 m4">
-            <input id="x" type="number">
-            <label for="x">X</label>
+            <input id="x" type="number" class="validate" min="-30000000" max="30000000">
+            <label for="x" data-error="You've exceeded the playable boundary.">X</label>
           </div>
           <div class="input-field col s12 m4">
-            <input id="y" type="number">
-            <label for="y">Y</label>
+            <input id="y" type="number" class="validate" min="-1.797×10^308" max="1.797×10^308">
+            <label for="y" data-error="Seriously?">Y</label>
           </div>
           <div class="input-field col s12 m4">
-            <input id="z" type="number">
-            <label for="z">Z</label>
+            <input id="z" type="number" class="validate" min="-30000000" max="30000000">
+            <label for="z" data-error="You've exceeded the playable boundary.">Z</label>
           </div>
         </div>
       </div>
@@ -55,30 +55,37 @@
 
     <div class="row">
       <div class="col s12 m4">
-        <img src="img/sign.png" style="width:100%;">
+        <img src="img/sign.png" style="width:100%;" class="sign-img">
+        <div class="sign-container">
+          <p class="sign-line line-1"></p>
+          <p class="sign-line line-2"></p>
+          <p class="sign-line line-3"></p>
+          <p class="sign-line line-4"></p>
+        </div>
       </div>
       <div class="col s12 m8">
 
-        <div class="input-field">
-          <input id="line1" type="text">
-          <label for="line1">Line 1</label>
-        </div>
+        <form id="signValues">
+          <div class="input-field">
+            <input id="line1" type="text" data-target=".line-1" class="validate" pattern=".{0,16}">
+            <label for="line1" data-error="Your text must be 16 characters or less (without color codes).">Line 1</label>
+          </div>
 
-        <div class="input-field">
-          <input id="line2" type="text">
-          <label for="line2">Line 2</label>
-        </div>
+          <div class="input-field" class="line">
+            <input id="line2" type="text" data-target=".line-2" class="validate" pattern=".{0,16}">
+            <label for="line2" data-error="Your text must be 16 characters or less (without color codes).">Line 2</label>
+          </div>
 
-        <div class="input-field">
-          <input id="line3" type="text">
-          <label for="line3">Line 3</label>
-        </div>
+          <div class="input-field" class="line">
+            <input id="line3" type="text" data-target=".line-3" class="validate" pattern=".{0,16}">
+            <label for="line3" data-error="Your text must be 16 characters or less (without color codes).">Line 3</label>
+          </div>
 
-        <div class="input-field">
-          <input id="line4" type="text">
-          <label for="line4">Line 4</label>
-        </div>
-
+          <div class="input-field" class="line">
+            <input id="line4" type="text" data-target=".line-4" class="validate" pattern=".{0,16}">
+            <label for="line4" data-error="Your text must be 16 characters or less (without color codes).">Line 4</label>
+          </div>
+        </form>
 
       </div>
     </div>
@@ -87,5 +94,36 @@
 
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/materialize.min.js"></script>
+  <script>
+  $("img, a").each(function(element){
+    $(this)[0].ondragstart = function(){
+      return false;
+    };
+  });
+
+  function autosize(){
+    $(".sign-container").css("bottom", $(".sign-img").height() + 12);
+    $(".sign-line").css("height", (($(".sign-img").height() / 2) / 4) - 8 + "px");
+    $(".sign-line").css("font-size", (($(".sign-img").height() / 2) / 4) - 16 + "px");
+  }
+
+  $(document).ready(function(){
+    autosize();
+  });
+
+  $(window).resize(function(){
+    autosize();
+  });
+
+  $(".input-field input").on('input', function(event){
+    if($(this).val().length <= 16){
+      $($(this).data("target")).text($(this).val());
+    }
+  });
+
+  $("#signValues").submit(function(event){
+    event.preventDefault();
+  });
+  </script>
 </body>
 </html>
