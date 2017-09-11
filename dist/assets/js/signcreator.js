@@ -1,4 +1,4 @@
-signs = [];
+var signs = [];
 
 
 $("img, a").each(function(element){
@@ -236,6 +236,46 @@ class Sign {
   }
 }
 
+$("#importBtn").click(function(event){
+  event.preventDefault();
+  
+  $("#import").modal({
+    dismissable: true,
+    ready: function(modal, trigger){
+      $("#importCodeBox").val("");
+      
+      $("#importCodeCancel").click(function(event){
+        event.preventDefault();
+        $("#importCodeBox").val("");
+        $("#import").modal('close');
+      });
+      
+      $("#importCodeImport").click(function(event){
+        event.preventDefault();
+        
+        try {
+          var code = $("#importCodeBox").val();
+          signsTemp = JSON.parse(code);
+          signs = new Array();
+          signsTemp.forEach(function(sign){
+            signs.push(new Sign(sign.world, sign.x, sign.y, sign.z, sign.lines[0], sign.lines[1], sign.lines[2], sign.lines[3]));
+          });
+          updateSignSelector();
+          Materialize.toast("Signs loaded. Reload to clear signs.", 4000);
+        }catch(err){
+          Materialize.toast("Invalid signs file. Please check your input and try again.", 4000);
+        }
+        
+        
+        $("#importCodeBox").val("");
+        
+        $("#import").modal('close');
+      });
+    }
+  });
+  
+  $("#import").modal('open');
+});
 
 $("#exportBtn").click(function(event){
   event.preventDefault();
@@ -314,7 +354,7 @@ $("#saveBtn").click(function(event){
   event.preventDefault();
   localStorage.setItem('signs', JSON.stringify(signs));
 
-  let toastContent = $('<span>Saved!</span>').add($('<button class="btn-flat toast-action" id="undoSaveBtn">Undo</button>'));
+  let toastContent = $('<span>Saved!</span>');
   Materialize.toast(toastContent, 4000);
   $("#undoSaveBtn").click(function(event){
     event.preventDefault();
@@ -328,11 +368,11 @@ $("#loadBtn").click(function(event){
     signsTemp = JSON.parse(localStorage.getItem('signs'));
     signs = new Array();
     signsTemp.forEach(function(sign){
-      signs.push(new Sign(sign.world, sign.x, sign.y, sign.z, sign.line1, sign.line2, sign.line3, sign.line4));
+      signs.push(new Sign(sign.world, sign.x, sign.y, sign.z, sign.lines[0], sign.lines[1], sign.lines[2], sign.lines[3]));
     });
     updateSignSelector();
-    Materialize.toast("Loaded saved sign from browser. Reload to discard.", 4000);
+    Materialize.toast("Signs loaded. Reload to clear signs.", 4000);
   }else{
-    Materialize.toast("Unable to load sign from browser - no sign saved.", 4000);
+    Materialize.toast("Unable to load signs - you have nothing saved.", 4000);
   }
 });

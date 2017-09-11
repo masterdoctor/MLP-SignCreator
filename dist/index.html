@@ -31,6 +31,7 @@
       <div class="col s12 m6 push-m3 pull-m3">
         <div class="row">
           <div class="col s12 center-align">
+            <a class="btn waves-effect waves-light blue tooltip" data-position="top" data-tooltip="Use this to import data from your *.signs.json file." id="importBtn">Import</a>
             <a class="btn waves-effect waves-light blue tooltip" data-position="top" data-tooltip="Use this to get the data to paste into your *.signs.json file." id="exportBtn">Export</a>
             <a class="btn waves-effect waves-light blue tooltip" data-position="top" data-tooltip="Change settings for this tool..."  id="settingsBtn">Settings</a>
           </div>
@@ -125,6 +126,21 @@
 
   </div>
 
+  <!-- Import Modal -->
+  <div id="import" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Import Sign File</h4>
+      <p><label>Paste your MulitLanguagePlugin *.signs.json file into the text box below.</label></p>
+      
+      <br>
+      <input type="text" style="font-family:monospace;" id="importCodeBox">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action waves-effect waves-red btn-flat" id="importCodeCancel">Cancel</a>
+      <a href="#!" class="modal-action waves-effect waves-green btn-flat" id="importCodeImport">Import</a>
+    </div>
+  </div>
+  
   <!-- Settings Modal -->
   <div id="settings" class="modal modal-fixed-footer">
     <div class="modal-content">
