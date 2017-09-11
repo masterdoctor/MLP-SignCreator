@@ -238,21 +238,21 @@ class Sign {
 
 $("#importBtn").click(function(event){
   event.preventDefault();
-  
+
   $("#import").modal({
     dismissable: true,
     ready: function(modal, trigger){
       $("#importCodeBox").val("");
-      
+
       $("#importCodeCancel").click(function(event){
         event.preventDefault();
         $("#importCodeBox").val("");
         $("#import").modal('close');
       });
-      
+
       $("#importCodeImport").click(function(event){
         event.preventDefault();
-        
+
         try {
           var code = $("#importCodeBox").val();
           signsTemp = JSON.parse(code);
@@ -265,15 +265,15 @@ $("#importBtn").click(function(event){
         }catch(err){
           Materialize.toast("Invalid signs file. Please check your input and try again.", 4000);
         }
-        
-        
+
+
         $("#importCodeBox").val("");
-        
+
         $("#import").modal('close');
       });
     }
   });
-  
+
   $("#import").modal('open');
 });
 
